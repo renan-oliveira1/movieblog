@@ -1,6 +1,6 @@
 package com.example.movieblog.services;
 
-import com.example.movieblog.models.Movie;
+import com.example.movieblog.models.MovieModel;
 import com.example.movieblog.repository.MovieRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +11,24 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class MovieService implements IService<UUID, Movie> {
+public class MovieService implements IService<UUID, MovieModel> {
 
     @Autowired
-    MovieRepository  movieRepository;
+    private MovieRepository  movieRepository;
 
     @Transactional
     @Override
-    public Movie save(Movie movie) {
-        return movieRepository.save(movie);
+    public MovieModel save(MovieModel movieModel) {
+        return movieRepository.save(movieModel);
     }
 
     @Override
-    public List<Movie> findAll() {
+    public List<MovieModel> findAll() {
         return movieRepository.findAll();
     }
 
     @Override
-    public Optional<Movie> findOne(UUID id) {
+    public Optional<MovieModel> findOne(UUID id) {
         return movieRepository.findById(id);
     }
 

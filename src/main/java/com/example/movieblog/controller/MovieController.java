@@ -1,7 +1,10 @@
 package com.example.movieblog.controller;
 
+import com.example.movieblog.dtos.CategoryMovieDto;
 import com.example.movieblog.dtos.MovieDto;
-import com.example.movieblog.models.Movie;
+import com.example.movieblog.models.CategoryModel;
+import com.example.movieblog.models.MovieModel;
+import com.example.movieblog.services.CategoryService;
 import com.example.movieblog.services.MovieService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,14 +24,16 @@ import java.util.UUID;
 public class MovieController {
 
     final MovieService movieService;
+    final CategoryService categoryService;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(MovieService movieService, CategoryService categoryService) {
         this.movieService = movieService;
+        this.categoryService = categoryService;
     }
 
     @PostMapping("/movies")
     public ResponseEntity<Object> saveMovie(@RequestBody @Validated MovieDto movieDto){
-        var movieModel = new Movie();
+        var movieModel = new MovieModel();
         BeanUtils.copyProperties(movieDto, movieModel);
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -38,17 +44,25 @@ public class MovieController {
         }
         movieModel.setPosted(LocalDate.now());
 
+        for (CategoryMovieDto category: movieDto.categories()) {
+            Optional<CategoryModel> optionalCategoryModel = categoryService.findOne(category.id());
+            if(optionalCategoryModel.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!!");
+            }
+            movieModel.getCategories().add(optionalCategoryModel.get());
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(movieService.save(movieModel));
     }
 
     @GetMapping("/movies")
-    public ResponseEntity<List<Movie>> findAll(){
+    public ResponseEntity<List<MovieModel>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(movieService.findAll());
     }
 
     @GetMapping("/movies/{id}")
     public ResponseEntity<Object> findOne(@PathVariable(value = "id") UUID id){
-        Optional<Movie> optionalMovie = movieService.findOne(id);
+        Optional<MovieModel> optionalMovie = movieService.findOne(id);
         if(optionalMovie.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie Not Found!!");
         }
@@ -57,11 +71,11 @@ public class MovieController {
 
     @PutMapping("/movies/{id}")
     public ResponseEntity<Object> update(@PathVariable(value = "id") UUID id, @RequestBody @Validated MovieDto movieDto){
-        Optional<Movie> optionalMovie = movieService.findOne(id);
+        Optional<MovieModel> optionalMovie = movieService.findOne(id);
         if(optionalMovie.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie Not Found!!");
         }
-        var movieModel = new Movie();
+        var movieModel = new MovieModel();
         BeanUtils.copyProperties(movieDto, movieModel);
         movieModel.setId(id);
         try{
@@ -71,12 +85,20 @@ public class MovieController {
         }catch (Exception exception){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Premiere date in the wrong format(yyyy-mm-dd)");
         }
+
+        for (CategoryMovieDto category: movieDto.categories()) {
+            Optional<CategoryModel> optionalCategoryModel = categoryService.findOne(category.id());
+            if(optionalCategoryModel.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!!");
+            }
+            movieModel.getCategories().add(optionalCategoryModel.get());
+        }
         return ResponseEntity.status(HttpStatus.OK).body(movieService.save(movieModel));
     }
 
     @DeleteMapping("movies/{id}")
     public ResponseEntity<Object> delete(@PathVariable(value = "id") UUID id){
-        Optional<Movie> optionalMovie = movieService.findOne(id);
+        Optional<MovieModel> optionalMovie = movieService.findOne(id);
         if (optionalMovie.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found!!");
         }

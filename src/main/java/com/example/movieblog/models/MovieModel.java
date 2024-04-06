@@ -4,19 +4,25 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name="TB_MOVIES")
-public class Movie implements Serializable {
+public class MovieModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "movie_id")
     private UUID id;
     private String title;
     private String description;
     private LocalDate premiere;
     private LocalDate posted;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<CategoryModel> categories = new ArrayList<CategoryModel>();
 
     public UUID getId() {
         return id;
@@ -56,5 +62,13 @@ public class Movie implements Serializable {
 
     public void setPosted(LocalDate posted) {
         this.posted = posted;
+    }
+
+    public List<CategoryModel> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryModel> categories) {
+        this.categories = categories;
     }
 }

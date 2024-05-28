@@ -88,8 +88,8 @@ public class UserModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.authority == UserAuthority.ADMIN) return List.of(new SimpleGrantedAuthority("admin"), new SimpleGrantedAuthority("user"));
-        return List.of(new SimpleGrantedAuthority("user"));
+        if(this.authority == UserAuthority.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_user"));
     }
 
     public String getPassword() {

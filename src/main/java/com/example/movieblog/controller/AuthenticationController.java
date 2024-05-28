@@ -44,7 +44,7 @@ public class AuthenticationController {
         if(userRepository.findByEmail(userRegisterDto.email()) != null) return ResponseEntity.badRequest().build();
 
         String encrytedPassword = new BCryptPasswordEncoder().encode(userRegisterDto.password());
-        UserModel user = new UserModel(userRegisterDto.username(), userRegisterDto.email(), encrytedPassword, userRegisterDto.phone(), UserAuthority.ADMIN);
+        UserModel user = new UserModel(userRegisterDto.username(), userRegisterDto.email(), encrytedPassword, userRegisterDto.phone(), userRegisterDto.authority());
         UserModel savedUser = this.userRepository.save(user);
         var token = tokenService.generateToken(savedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(new AuthenticatedUserDto(savedUser.getEmail(), token));

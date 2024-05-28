@@ -30,8 +30,8 @@ public class SecurityConfiguration {
                         authorize
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/movies").hasRole("admin")
-                                .requestMatchers(HttpMethod.POST, "/categories").hasRole("admin")
+                                .requestMatchers(HttpMethod.POST, "/movies").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/categories").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

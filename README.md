@@ -114,3 +114,104 @@ Get categories.
 ]
 ```
 </details>
+
+<details>
+<summary>Get Category (ADMIN, USER)</summary>
+
+Get categories.
+
+<b>URL:</b> baseUrl + /categories/idCategory </br>
+<b>METHOD:</b> GET </br>
+<b>BODY REQUEST:</b>
+
+<b>BODY SUCCES RESPONSE:</b>
+```json
+[
+	{
+		"id": 1,
+		"name": "Horror",
+		"description": "Some category description"
+	}
+]
+```
+</details>
+
+<details>
+<summary>Create Category (ADMIN)</summary>
+
+Create a new category.
+
+<b>URL:</b> baseUrl + /categories </br>
+<b>METHOD:</b> POST </br>
+<b>BODY REQUEST:</b>
+
+<b>BODY REQUEST:</b>
+```json
+{
+	"name": "Horror",
+	"description": "Some category description"
+}
+```
+</details>
+
+<details>
+<summary>Get Movies (ADMIN, USER)</summary>
+
+Get movies.
+
+<b>URL:</b> baseUrl + /movies </br>
+<b>METHOD:</b> GET </br>
+<b>BODY REQUEST:</b>
+
+<b>BODY RESPONSE:</b>
+```json
+[
+	{
+		"id": 1,
+		"name": "Horror",
+		"description": "Some category description"
+	}
+]
+```
+</details>
+
+<details>
+<summary>Get Movie (ADMIN, USER)</summary>
+
+Get a moview.
+
+<b>URL:</b> baseUrl + /movies/idMovie </br>
+<b>METHOD:</b> GET </br>
+<b>BODY REQUEST:</b>
+
+<b>BODY REQUEST:</b>
+```json
+{
+	"id": 1,
+	"name": "Horror",
+	"description": "Some category description"
+}
+```
+</details>
+
+<details>
+<summary>Create Movie (ADMIN)</summary>
+
+Create movie.
+
+<b>URL:</b> baseUrl + /movies </br>
+<b>METHOD:</b> POST </br>
+<b>BODY REQUEST:</b>
+
+<b>BODY REQUEST:</b>
+```json
+{
+	"title": "Stranger Things",
+	"description": "Some movie description",
+	"premiere": "2023-02-02",
+	"categories": [
+		{"id": 1}
+	]
+}
+```
+</details>

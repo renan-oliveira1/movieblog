@@ -1,6 +1,10 @@
 package com.example.movieblog.models;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name="TB_USERS")
 public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +24,7 @@ public class UserModel implements UserDetails {
     private String email;
     private String password;
     private String phone;
+    @NotNull
     private UserAuthority authority;
 
     public UserModel(UUID id, String username, String email, String password, String phone, UserAuthority authority) {

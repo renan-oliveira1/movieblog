@@ -21,7 +21,7 @@ public class MovieModel implements Serializable {
     private LocalDate premiere;
     private LocalDate posted;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<CategoryModel> categories = new ArrayList<CategoryModel>();
 
     public UUID getId() {
@@ -71,4 +71,5 @@ public class MovieModel implements Serializable {
     public void setCategories(List<CategoryModel> categories) {
         this.categories = categories;
     }
+
 }

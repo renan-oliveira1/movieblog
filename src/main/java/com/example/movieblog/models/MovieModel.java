@@ -20,6 +20,9 @@ public class MovieModel implements Serializable {
     private String description;
     private LocalDate premiere;
     private LocalDate posted;
+    @Lob
+    private byte[] image;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<CategoryModel> categories = new ArrayList<CategoryModel>();
@@ -72,4 +75,11 @@ public class MovieModel implements Serializable {
         this.categories = categories;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 }

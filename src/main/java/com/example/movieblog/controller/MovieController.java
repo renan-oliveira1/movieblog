@@ -12,13 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class MovieController {
@@ -50,6 +48,14 @@ public class MovieController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!!");
             }
             movieModel.getCategories().add(optionalCategoryModel.get());
+        }
+
+        if(!movieDto.encodedImage().isEmpty()){
+            try{
+                movieModel.setImage(Base64.getDecoder().decode(movieDto.encodedImage()));
+            }catch (Exception e){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error to decode image from request!");
+            }
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(movieService.save(movieModel));

@@ -6,5 +6,5 @@ import java.util.List;
 
 
 public record MovieDto(@NonNull String title, @NonNull String description, @NonNull String premiere, @NonNull
-                       List<CategoryMovieDto> categories) {
+                       List<CategoryMovieDto> categories, String encodedImage) {
 }

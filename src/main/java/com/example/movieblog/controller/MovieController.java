@@ -2,7 +2,7 @@ package com.example.movieblog.controller;
 
 import com.example.movieblog.dtos.CategoryMovieDto;
 import com.example.movieblog.dtos.MovieDto;
-import com.example.movieblog.models.CategoryModel;
+import com.example.movieblog.infrastructure.persistence.entities.CategoryEntity;
 import com.example.movieblog.models.MovieModel;
 import com.example.movieblog.services.CategoryService;
 import com.example.movieblog.services.MovieService;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -43,7 +42,7 @@ public class MovieController {
         movieModel.setPosted(LocalDate.now());
 
         for (CategoryMovieDto category: movieDto.categories()) {
-            Optional<CategoryModel> optionalCategoryModel = categoryService.findOne(category.id());
+            Optional<CategoryEntity> optionalCategoryModel = categoryService.findOne(category.id());
             if(optionalCategoryModel.isEmpty()){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!!");
             }
@@ -93,7 +92,7 @@ public class MovieController {
         }
 
         for (CategoryMovieDto category: movieDto.categories()) {
-            Optional<CategoryModel> optionalCategoryModel = categoryService.findOne(category.id());
+            Optional<CategoryEntity> optionalCategoryModel = categoryService.findOne(category.id());
             if(optionalCategoryModel.isEmpty()){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!!");
             }

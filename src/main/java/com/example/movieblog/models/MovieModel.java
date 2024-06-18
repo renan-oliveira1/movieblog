@@ -1,5 +1,6 @@
 package com.example.movieblog.models;
 
+import com.example.movieblog.infrastructure.persistence.entities.CategoryEntity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -25,7 +26,7 @@ public class MovieModel implements Serializable {
 
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<CategoryModel> categories = new ArrayList<CategoryModel>();
+    private List<CategoryEntity> categories = new ArrayList<CategoryEntity>();
 
     public UUID getId() {
         return id;
@@ -67,11 +68,11 @@ public class MovieModel implements Serializable {
         this.posted = posted;
     }
 
-    public List<CategoryModel> getCategories() {
+    public List<CategoryEntity> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<CategoryModel> categories) {
+    public void setCategories(List<CategoryEntity> categories) {
         this.categories = categories;
     }
 

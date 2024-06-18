@@ -1,4 +1,4 @@
-package com.example.movieblog.models;
+package com.example.movieblog.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "TB_CATEGORY")
-public class CategoryModel implements Serializable {
+public class CategoryEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +14,15 @@ public class CategoryModel implements Serializable {
     private Long id;
     private String name;
     private String description;
+
+    public CategoryEntity(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+    public CategoryEntity() {
+    }
 
     public Long getId() {
         return id;
